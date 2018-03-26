@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Head from '../components/head/head.vue'
 import Goods from '../components/goods/goods.vue'
 import Comment from '../components/comment/comment.vue'
 import Seller from '../components/seller/seller.vue'
@@ -8,7 +7,13 @@ import Seller from '../components/seller/seller.vue'
 Vue.use(Router)
 
 export default new Router({
+  linkActiveClass:'active',
   routes: [
+    {
+      path: '/',
+      name: 'goods',
+      component: Goods
+    },
     {
       path: '/goods',
       name: 'goods',

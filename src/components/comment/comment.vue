@@ -1,6 +1,6 @@
 <!-- html-->
 <template>
-    <button v-on:click="click">comment</button>
+    <div>comment</div>
 
 </template>
 

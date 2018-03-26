@@ -1,47 +1,43 @@
 <!-- html-->
 <template>
-    <div>head</div>
+  <div class="header">
+    <div>
+      <img width="64" height="64" :src="seller.avatar">
+      <span>{{seller.name}}</span>
+
+      <span>{{seller.bulletin}}</span>
+    </div>
+
+  </div>
 
 </template>
 
 <!--js-->
 <script>
-    export default {
+  export default {
 
-        data() {
-            return {
-                a: 1
-            }
-        },
-        methods: {
-            click() {
-                this.a++
-            }
-        },
-        watch: {
-            a: function (value, oldValue) {
+    // 外部传进来的对象
+    props: {
+      seller: {
+        type: Object
+      }
+    },
 
-            }
-        },
+    data() {
+      return {
+      }
+    },
+    methods: {
+    },
 
-        beforeCreate: function () {
+    /**
+     * 实例被创建之后执行代码
+     */
+    created: function () {
+      // console.log(this.seller.avatar)
+    },
 
-        },
-
-        /**
-         * 实例被创建之后执行代码
-         */
-        created: function () {
-
-        },
-
-        mounted: function () {
-        },
-
-        destoryed: function () {
-        },
-
-    }
+  }
 
 </script>
 

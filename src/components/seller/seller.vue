@@ -1,6 +1,6 @@
 <!-- html-->
 <template>
-    <button v-on:click="click">sellder</button>
+    <div>seller</div>
 
 </template>
 
