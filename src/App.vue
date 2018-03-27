@@ -3,16 +3,21 @@
     <v-head v-bind:seller="seller"></v-head>
 
     <div class="tab">
-      <router-link class="tab-item" to="/goods">
-        <a class="tab-link">商品</a>
-      </router-link>
-      <router-link class="tab-item" to="/seller">
-        商家
-      </router-link>
-      <router-link class="tab-item" to="/comment">评论</router-link>
+      <div class="tab-item">
+        <router-link to="/goods" active-class="active">商品</router-link>
+      </div>
+      <div class="tab-item">
+        <router-link to="/comment" active-class="active">评论</router-link>
+      </div>
+      <div class="tab-item">
+        <router-link to="/seller" active-class="active">商家</router-link>
+      </div>
     </div>
 
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+
   </div>
 </template>
 
@@ -35,12 +40,7 @@
         seller: {}
       }
     },
-    methods: {
-      tabClick(event) {
-        // console.log(event)
-        this.$router.push('/goods')
-      }
-    },
+    methods: {},
 
     created() {
       axios.get('http://localhost:8080/static/data.json')
@@ -49,7 +49,7 @@
           this.goods = res.data.goods;
           this.ratings = res.data.ratings;
           this.seller = res.data.seller;
-          console.log(this.seller)
+
         })
         .catch(err => {
           console.log(err)
@@ -63,7 +63,6 @@
 
 <style>
 
-  #app
   .tab {
     display: flex;
     width: 100%;
@@ -79,14 +78,12 @@
     text-align: center;
     font-size: 14px;
     color: rgb(77, 85, 93);
-    active: rgb(255, 0, 255);
-
-  .router-link-active
-  .tab-link {
-    color: aqua;
-  }
 
   }
 
+  .active {
+    color: rgb(240, 20, 20);
+    font-size: 16px;
+  }
 
 </style>

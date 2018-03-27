@@ -24,25 +24,12 @@
             }
         },
 
-        beforeCreate: function () {
-
-            console.log('home before created')
-        },
-
         /**
          * 实例被创建之后执行代码
          */
         created: function () {
 
-            console.log('home created')
-        },
-
-        mounted: function () {
-            console.log('home mounted')
-        },
-
-        destoryed: function () {
-            console.log('home destoryed')
+            console.log('comment created')
         },
 
     }
