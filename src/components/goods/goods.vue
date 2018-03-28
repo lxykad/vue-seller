@@ -4,33 +4,39 @@
 
     <div class="container">
       <!-- 左侧菜单-->
-      <div class="menu-wrapper">
-        <ul v-for="(item,index) in goods" :key="index">
-          <li>
+      <div class="menu-wrapper" ref="menuWrapper">
+        <ul>
+          <li v-for="(item,index) in goods" :key="index" :class="{'current':currentIndex===index}">
             <span class="left-item">{{item.name}}</span>
           </li>
         </ul>
       </div>
 
       <!--右侧内容列表-->
-      <div class="content-wrapper">
-        <ul style="width: 100%">
-          <li v-for="(item,index) in goods" :key="index">
+      <div class="content-wrapper2" ref="contentWrapper">
+
+        <ul>
+          <li v-for="(item,index) in goods" :key="index" ref="foodList">
             <h1 class="title">{{item.name}}</h1>
             <ul>
+
               <li v-for="(food,index) in item.foods">
+
                 <div class="food-item">
-                  <img v-bind:src="food.image" class="food-img"/>
+                  <div>
+                    <img v-bind:src="food.image" width="64" height="64"/>
+                  </div>
+
                   <div class="food-desc">
-                    <div>
+                    <h2>
                       {{food.name}}
-                    </div>
-                    <div>
+                    </h2>
+                    <p>
                       {{food.description}}
-                    </div>
+                    </p>
                     <div>
-                      月售{{food.sellCount}}份
-                      好评率{{food.rating}}%
+                      <span>月售{{food.sellCount}}份</span>
+                      <span>好评率{{food.rating}}%</span>
                     </div>
                     <div class="price-wrapper">
                       <span>
@@ -50,6 +56,7 @@
             </ul>
           </li>
         </ul>
+
       </div>
     </div>
 
@@ -63,18 +70,64 @@
 <!--js-->
 <script>
   import axios from 'axios'
+  import BScroll from 'better-scroll'
 
   export default {
 
     data() {
       return {
-        goods: []
+        goods: [],
+        listHeight: [],
+        scrollY: 0,
+        selectedFood: {}
       }
+    },
+    computed:{
+
+      currentIndex() {
+        for (let i = 0; i < this.listHeight.length; i++) {
+          let height1 = this.listHeight[i];
+          let height2 = this.listHeight[i + 1];
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+           // this._followScroll(i);
+            return i;
+          }
+        }
+        return 0;
+      }
+
     },
     methods: {
       addFood(food) {
         console.log(food.name)
-      }
+      },
+      _initScroll() {
+
+        this.foodsScroll = new BScroll(this.$refs.contentWrapper, {
+          click: true,
+          probeType: 3
+        })
+        this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+          click: true
+        })
+        this.foodsScroll.on('scroll', (prop) => {
+          // 判断滑动方向，避免下拉时分类高亮错误（如第一分类商品数量为1时，下拉使得第二分类高亮）
+          if (prop.y <= 0) {
+            this.scrollY = Math.abs(Math.round(prop.y));
+          }
+        })
+      },
+      _calculateHeight() {
+        let foodList = this.$refs.foodList;
+        let height = 0;
+        this.listHeight.push(height)
+        for (let i = 0; i < foodList.length; i++) {
+          let item = foodList[i]
+          height += item.clientHeight
+          this.listHeight.push(height);
+        }
+      },
+
     },
 
     /**
@@ -85,7 +138,10 @@
       axios.get('http://localhost:8080/static/data.json')
         .then(res => {
           this.goods = res.data.goods;
-
+          this.$nextTick(() => {
+            this._initScroll()
+            this._calculateHeight()
+          })
 
         })
         .catch(err => {
@@ -123,11 +179,13 @@
 
   }
 
-  .content-wrapper {
+  /*
+    一个比较坑的问题，content-wrapper 无法滑动
+  */
+  .content-wrapper2 {
     width: 100%;
     padding: 0;
     overflow: hidden;
-
   }
 
   .left-item {
@@ -138,6 +196,7 @@
     font-size: 12px;
     padding: 0 12px;
     line-height: 14px;
+    border-bottom: solid 1px #7e8c8d;
   }
 
   .title {
@@ -186,6 +245,8 @@
     width: 100%;
     background-color: darkcyan;
   }
-
+  .current{
+    background-color: darkcyan;
+  }
 
 </style>
