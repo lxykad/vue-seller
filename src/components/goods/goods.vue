@@ -47,7 +47,9 @@
 
                       </i>
                     </div>
-
+                    <div class="car-control">
+                      <v-control :food="food"></v-control>
+                    </div>
                   </div>
 
                 </div>
@@ -57,8 +59,9 @@
             </ul>
           </li>
         </ul>
-
+        <v-control></v-control>
       </div>
+
     </div>
 
     <!--底部购物车-->
@@ -73,13 +76,14 @@
   import axios from 'axios'
   import BScroll from 'better-scroll'
   import ShoppingCar from '../car/shoppingcar.vue'
+  import CarControl from '../carcontrol/carcontrol.vue'
 
   export default {
 
     // 导出组件
     components: {
       'v-car': ShoppingCar,
-
+      'v-control': CarControl
     },
 
     data() {
@@ -90,14 +94,14 @@
         selectedFood: {}
       }
     },
-    computed:{
+    computed: {
 
       currentIndex() {
         for (let i = 0; i < this.listHeight.length; i++) {
           let height1 = this.listHeight[i];
           let height2 = this.listHeight[i + 1];
           if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
-           // this._followScroll(i);
+            // this._followScroll(i);
             return i;
           }
         }
@@ -135,7 +139,7 @@
           this.listHeight.push(height);
         }
       },
-      menuClick(index,event){
+      menuClick(index, event) {
 
         if (!event._constructed) {
           return;
@@ -259,8 +263,16 @@
     left: 0px;
     bottom: 0px;
   }
-  .current{
+
+  .current {
     background-color: darkcyan;
+  }
+
+  .car-control {
+    position: relative;
+    right: 0;
+    top: 6px;
+    bottom: 12px;
   }
 
 </style>

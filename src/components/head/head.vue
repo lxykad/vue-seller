@@ -18,7 +18,7 @@
       <div v-if="seller.supports" class="support" @click="showSupport">
         <div class="support-content">
           <div>{{seller.supports.length}}个</div>
-          <i class="iconfont icon-arrow"></i>
+          <i class="iconfont icon-minus"></i>
         </div>
 
       </div>
