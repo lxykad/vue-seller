@@ -6,7 +6,8 @@
       <!-- 左侧菜单-->
       <div class="menu-wrapper" ref="menuWrapper">
         <ul>
-          <li v-for="(item,index) in goods" :key="index" :class="{'current':currentIndex===index}">
+          <li v-for="(item,index) in goods" :key="index" :class="{'current':currentIndex===index}"
+              @click="menuClick(index,$event)">
             <span class="left-item">{{item.name}}</span>
           </li>
         </ul>
@@ -127,6 +128,15 @@
           this.listHeight.push(height);
         }
       },
+      menuClick(index,event){
+
+        if (!event._constructed) {
+          return;
+        }
+        let foodList = this.$refs.foodList;
+        let el = foodList[index];
+        this.foodsScroll.scrollToElement(el, 300);
+      }
 
     },
 
