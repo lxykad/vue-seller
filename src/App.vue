@@ -25,12 +25,12 @@
   import axios from 'axios'
   import Head from './components/head/head.vue'
 
-
   export default {
     //   name: 'App',
     // 导出组件
     components: {
-      'v-head': Head
+      'v-head': Head,
+
     },
 
     data() {

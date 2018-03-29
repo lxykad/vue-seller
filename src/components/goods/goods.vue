@@ -62,7 +62,7 @@
     </div>
 
     <!--底部购物车-->
-    <div class="car">car</div>
+    <v-car class="car">car</v-car>
 
   </div>
 
@@ -72,8 +72,15 @@
 <script>
   import axios from 'axios'
   import BScroll from 'better-scroll'
+  import ShoppingCar from '../car/shoppingcar.vue'
 
   export default {
+
+    // 导出组件
+    components: {
+      'v-car': ShoppingCar,
+
+    },
 
     data() {
       return {
@@ -251,9 +258,6 @@
     position: absolute;
     left: 0px;
     bottom: 0px;
-    height: 46px;
-    width: 100%;
-    background-color: darkcyan;
   }
   .current{
     background-color: darkcyan;
