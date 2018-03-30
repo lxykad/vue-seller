@@ -1,10 +1,10 @@
 <!-- html-->
 <template>
-  <div class="cartcontrol">
-    <div class="cart-decrease">
+  <div class="cartcontrol" v-if="food">
+    <div class="cart-decrease" v-show="food.count>0">
       <i class="iconfont icon-minus" @click="minus"></i>
     </div>
-    <div class="cart-count"></div>
+    <div class="cart-count" v-show="food.count>0">{{food.count}}</div>
     <div class="cart-add">
       <i class="iconfont icon-add" @click="add"></i>
     </div>
@@ -39,6 +39,8 @@
         } else {
           this.food.count++
         }
+        // console.log(event.target)
+        this.$emit('add', this.food)
       },
       minus(event) {
         if (!event._constructed) {
@@ -47,7 +49,7 @@
         if (this.food.count) {
           this.food.count--
         }
-
+        this.$emit('minus', this.food)
       }
     },
 
@@ -55,11 +57,7 @@
      * 实例被创建之后执行代码
      */
     created: function () {
-      if (this.food) {
-        console.log('1111111')
-      }else {
-        console.log('=====undefined')
-      }
+
     },
 
   }

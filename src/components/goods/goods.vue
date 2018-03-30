@@ -48,7 +48,7 @@
                       </i>
                     </div>
                     <div class="car-control">
-                      <v-control :food="food"></v-control>
+                      <v-control :food="food" v-on:add="foodAdd($event)" v-on:minus="foodMinus($event)"></v-control>
                     </div>
                   </div>
 
@@ -65,7 +65,7 @@
     </div>
 
     <!--底部购物车-->
-    <v-car class="car">car</v-car>
+    <v-car class="car" :foodList="addList">car</v-car>
 
   </div>
 
@@ -91,7 +91,8 @@
         goods: [],
         listHeight: [],
         scrollY: 0,
-        selectedFood: {}
+        selectedFood: {},
+        addList: []
       }
     },
     computed: {
@@ -147,6 +148,25 @@
         let foodList = this.$refs.foodList;
         let el = foodList[index];
         this.foodsScroll.scrollToElement(el, 300);
+      },
+      /*
+       子组件传进来的事件
+      * */
+      foodAdd(food) {
+        this.addList.push(food)
+      },
+      foodMinus(food) {
+        // this.delFood(food)
+        this.addList.pop(food)
+      },
+      delFood(food) {
+        this.addList.forEach((item) => {
+          if (item.name === food.name) {
+            let index = this.addList.indexOf(item)
+            this.addList.splice(index, 1)
+          }
+
+        })
       }
 
     },

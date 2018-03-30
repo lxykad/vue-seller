@@ -2,12 +2,13 @@
 <template>
   <div class="shopcar">
     <div class="content">
-      <div class="content-left">
+      <!--左侧内容-->
+      <div class="content-left" @click="leftClick">
         <div class="logo-wrapper">
-          <div class="logo">
+          <div class="logo" :class="{'has-food':foodList.length>0}">
             <i class="iconfont icon-shopping_cart"></i>
           </div>
-          <div class="num">1</div>
+          <div class="num" v-show="foodList.length>0">{{foodList.length}}</div>
         </div>
         <div class="price">
           price
@@ -16,12 +17,30 @@
           配送费 3
         </div>
       </div>
+      <!--右侧支付-->
       <div class="content-right">
         <div class="pay">
           支付
         </div>
       </div>
+      <!--购物车列表-->
+      <transition>
+        <div class="shopcart-list" v-show="!fold" ref="listContent">
+
+          <ul>
+            <li v-for="item in foodList">
+              <div class="list-item">
+                {{item.name}}
+              </div>
+
+            </li>
+          </ul>
+
+        </div>
+      </transition>
+
     </div>
+
   </div>
 
 </template>
@@ -31,11 +50,36 @@
 
   export default {
 
+    props: {
+      foodList: Array
+    },
+
     data() {
-      return {}
+      return {
+        fold: true
+      }
     },
     methods: {
-      click() {
+      leftClick() {
+        if (!this.foodList.length) {
+          return
+        }
+        this.fold = !this.fold
+      },
+      hideList() {
+        this.fold = true;
+      },
+    },
+    computed: {
+      totalCount() {
+        let count = 0
+        this.foodList.forEach((food) => {
+          count += food.count
+        })
+        // return count
+        return this.foodList.length
+      },
+      listShow() {
 
       }
     },
@@ -84,6 +128,8 @@
           box-sizing: border-box
           border-radius: 50%
           background: #141d27
+          .has-food
+            color #f00
           .logo
             display inline-block
             width: 100%
@@ -131,4 +177,15 @@
           font-size 12px
           text-align center
           background: #00b43c
+      .shopcart-list
+        position absolute
+        left 0
+        bottom 46px
+        width 100%
+        z-index -1
+        background-color #7e8c8d
+        max-height 217px
+        overflow scroll
+        .list-item
+          padding 5px 0
 </style>
