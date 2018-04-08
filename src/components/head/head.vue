@@ -30,12 +30,30 @@
       {{seller.bulletin}}
     </div>
 
+    <div class="support-detail" v-show="showSup" ref="detailWrapper">
+
+      <div class="detail-content">
+        <ul>
+          <li v-for="(item,index) in detail" class="item">
+            {{item}}
+          </li>
+        </ul>
+
+      </div>
+      <div class="detail-footer">
+        <i class="iconfont icon-add" @click="showSupport"></i>
+      </div>
+
+    </div>
+
   </div>
 
 </template>
 
 <!--js-->
 <script>
+  import BScroll from 'better-scroll'
+
   export default {
 
     // 外部传进来的对象
@@ -46,11 +64,14 @@
     },
 
     data() {
-      return {}
+      return {
+        showSup: false,
+        detail: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      }
     },
     methods: {
       showSupport() {
-        console.log('sup')
+        this.showSup = !this.showSup
       }
     },
 
@@ -104,10 +125,39 @@
     border-radius: 14px;
   }
 
-  .support-content{
+  .support-content {
     display: flex;
     flex-direction: row;
     margin-right: 8px;
+  }
+
+  .support-detail {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    overflow: scroll;
+  }
+
+  .detail-content {
+    flex: 1;
+    overflow: scroll;
+  }
+
+  .detail-footer {
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+  }
+
+  .item {
+    height: 100px;
   }
 
   .bulletin-wrapper {
@@ -120,5 +170,6 @@
     background: rgba(7, 17, 27, 0.2);
 
   }
+
 
 </style>

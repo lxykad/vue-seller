@@ -176,7 +176,7 @@
      */
     created: function () {
 
-      axios.get('http://localhost:8080/static/data.json')
+      axios.get('http://192.168.0.183:8080/static/data.json')
         .then(res => {
           this.goods = res.data.goods;
           this.$nextTick(() => {
