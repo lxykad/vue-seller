@@ -1,72 +1,73 @@
 <!-- html-->
 <template>
-  <div class="goods">
+  <div>
+    <div class="goods">
+      <div class="container">
+        <!-- 左侧菜单-->
+        <div class="menu-wrapper" ref="menuWrapper">
+          <ul>
+            <li v-for="(item,index) in goods" :key="index" :class="{'current':currentIndex===index}"
+                @click="menuClick(index,$event)">
+              <span class="left-item">{{item.name}}</span>
+            </li>
+          </ul>
+        </div>
 
-    <div class="container">
-      <!-- 左侧菜单-->
-      <div class="menu-wrapper" ref="menuWrapper">
-        <ul>
-          <li v-for="(item,index) in goods" :key="index" :class="{'current':currentIndex===index}"
-              @click="menuClick(index,$event)">
-            <span class="left-item">{{item.name}}</span>
-          </li>
-        </ul>
-      </div>
+        <!--右侧内容列表-->
+        <div class="content-wrapper2" ref="contentWrapper">
 
-      <!--右侧内容列表-->
-      <div class="content-wrapper2" ref="contentWrapper">
+          <ul>
+            <li v-for="(item,index) in goods" :key="index" ref="foodList">
+              <h1 class="title">{{item.name}}</h1>
+              <ul>
 
-        <ul>
-          <li v-for="(item,index) in goods" :key="index" ref="foodList">
-            <h1 class="title">{{item.name}}</h1>
-            <ul>
+                <li v-for="(food,index) in item.foods" @click="foodClick(food)">
 
-              <li v-for="(food,index) in item.foods">
-
-                <div class="food-item">
-                  <div>
-                    <img v-bind:src="food.image" width="64" height="64"/>
-                  </div>
-
-                  <div class="food-desc">
-                    <h2>
-                      {{food.name}}
-                    </h2>
-                    <p>
-                      {{food.description}}
-                    </p>
+                  <div class="food-item">
                     <div>
-                      <span>月售{{food.sellCount}}份</span>
-                      <span>好评率{{food.rating}}%</span>
+                      <img v-bind:src="food.image" width="64" height="64"/>
                     </div>
-                    <div class="price-wrapper">
+
+                    <div class="food-desc">
+                      <h2>
+                        {{food.name}}
+                      </h2>
+                      <p>
+                        {{food.description}}
+                      </p>
+                      <div>
+                        <span>月售{{food.sellCount}}份</span>
+                        <span>好评率{{food.rating}}%</span>
+                      </div>
+                      <div class="price-wrapper">
                       <span>
                         售价{{food.price}}元
                       </span>
-                      <i class="iconfont icon-arrow" @click="addFood(food)">
+                        <i class="iconfont icon-arrow" @click="addFood(food)">
 
-                      </i>
+                        </i>
+                      </div>
+                      <div class="car-control">
+                        <v-control :food="food" v-on:add="foodAdd($event)" v-on:minus="foodMinus($event)"></v-control>
+                      </div>
                     </div>
-                    <div class="car-control">
-                      <v-control :food="food" v-on:add="foodAdd($event)" v-on:minus="foodMinus($event)"></v-control>
-                    </div>
+
                   </div>
 
-                </div>
+                </li>
 
-              </li>
+              </ul>
+            </li>
+          </ul>
+          <v-control></v-control>
+        </div>
 
-            </ul>
-          </li>
-        </ul>
-        <v-control></v-control>
       </div>
-
+      <!--底部购物车-->
+      <v-car class="car" :foodList="addList">car</v-car>
     </div>
-
-    <!--底部购物车-->
-    <v-car class="car" :foodList="addList">car</v-car>
-
+    <!--商品详情页-->
+    <food class="food-detail" :food="selectedFood" v-on:back="hidenFood($event)" v-show="foodShow"></food>
   </div>
 
 </template>
@@ -77,13 +78,15 @@
   import BScroll from 'better-scroll'
   import ShoppingCar from '../car/shoppingcar.vue'
   import CarControl from '../carcontrol/carcontrol.vue'
+  import food from '../food/food.vue'
 
   export default {
 
     // 导出组件
     components: {
       'v-car': ShoppingCar,
-      'v-control': CarControl
+      'v-control': CarControl,
+      food
     },
 
     data() {
@@ -92,7 +95,8 @@
         listHeight: [],
         scrollY: 0,
         selectedFood: {},
-        addList: []
+        addList: [],
+        foodShow: false
       }
     },
     computed: {
@@ -167,6 +171,16 @@
           }
 
         })
+      },
+      foodClick(food) {
+        this.selectedFood = food
+        this.foodShow = true
+      },
+      /*
+      * 子组件传进来的事件
+      * */
+      hidenFood(){
+        this.foodShow = false
       }
 
     },
@@ -293,6 +307,15 @@
     right: 0;
     top: 6px;
     bottom: 12px;
+  }
+
+  .food-detail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
   }
 
 </style>
