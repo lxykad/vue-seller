@@ -68,6 +68,7 @@
 <style lang="stylus">
   .cartcontrol
     display flex
+    background-color darkcyan
     .cart-decrease
       color rgb(0, 160, 220)
       padding 5px

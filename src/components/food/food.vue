@@ -1,7 +1,7 @@
 <template>
   <transition name="move">
 
-    <div class="container">
+    <div class="container" v-show="showFlag">
       <button @click="back">返回</button>
       <p>{{food.name}}</p>
     </div>
@@ -32,10 +32,12 @@
         }
 
         this.$emit('back')
+        this.showFlag = false
       },
 
       show() {
         console.log('show')
+        this.showFlag = true
       }
     },
     created: function () {

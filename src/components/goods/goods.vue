@@ -67,7 +67,7 @@
       <v-car class="car" :foodList="addList">car</v-car>
     </div>
     <!--商品详情页-->
-    <food class="food-detail" :food="selectedFood" v-on:back="hidenFood($event)" v-show="foodShow" ref="food"></food>
+    <food class="food-detail" :food="selectedFood" v-on:back="hidenFood($event)" ref="food"></food>
   </div>
 
 </template>
@@ -174,7 +174,7 @@
       },
       foodClick(food) {
         this.selectedFood = food
-        this.foodShow = true
+        //  this.foodShow = true
         /*
         * 调用子组件的方法
         * */
@@ -183,7 +183,7 @@
       /*
       * 子组件传进来的事件
       * */
-      hidenFood(){
+      hidenFood() {
         this.foodShow = false
       }
 
